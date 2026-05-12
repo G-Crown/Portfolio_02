@@ -787,3 +787,4 @@ export default function PortfolioSite() {
     </div>
   );
 }
+export default App;
