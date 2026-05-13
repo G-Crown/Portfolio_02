@@ -1,13 +1,914 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Olugbenga Crown | Portfolio</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <!-- The script MUST be inside the body or head tags -->
-    <script type="module" src="/src/App.jsx"></script>
-  </body>
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Olugbenga Crown | Project Manager</title>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:#060E1A;color:#E2EBF3;font-family:'Outfit',system-ui,sans-serif;overflow-x:hidden}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:#060E1A}
+::-webkit-scrollbar-thumb{background:rgba(232,184,75,0.3);border-radius:99px}
+
+.fd{font-family:'Cormorant Garamond',Georgia,serif}
+.fb{font-family:'Outfit',system-ui,sans-serif}
+
+/* Animations */
+@keyframes fadeInUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes scaleIn{from{opacity:0;transform:scale(0.95) translateY(12px)}to{opacity:1;transform:scale(1) translateY(0)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes barGrow{from{width:0}to{width:var(--w)}}
+@keyframes chatPop{from{opacity:0;transform:scale(0.8) translateY(16px)}to{opacity:1;transform:scale(1) translateY(0)}}
+@keyframes blink{0%,80%,100%{opacity:0}40%{opacity:1}}
+@keyframes stag{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(232,184,75,0.5)}70%{box-shadow:0 0 0 10px rgba(232,184,75,0)}}
+
+.page-in{animation:scaleIn 0.38s cubic-bezier(0.16,1,0.3,1) both}
+.s0{animation:stag 0.55s 0.0s ease both}
+.s1{animation:stag 0.55s 0.1s ease both}
+.s2{animation:stag 0.55s 0.2s ease both}
+.s3{animation:stag 0.55s 0.3s ease both}
+.s4{animation:stag 0.55s 0.4s ease both}
+.s5{animation:stag 0.55s 0.5s ease both}
+.s6{animation:stag 0.55s 0.6s ease both}
+
+/* Nav */
+.nav-link{color:#6B7F93;font-size:0.75rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;transition:color 0.2s;position:relative;padding-bottom:3px;background:none;border:none;font-family:'Outfit',sans-serif}
+.nav-link:hover,.nav-link.active{color:#E8B84B}
+.nav-link.active::after{content:'';position:absolute;bottom:-1px;left:0;width:100%;height:2px;background:#E8B84B;border-radius:1px}
+
+/* Hub Cards */
+.hub-card{background:#0C1B2B;border:1px solid rgba(255,255,255,0.055);border-radius:15px;padding:34px 30px;cursor:pointer;transition:all 0.35s cubic-bezier(0.16,1,0.3,1);position:relative;overflow:hidden}
+.hub-card::after{content:'';position:absolute;inset:0;background:linear-gradient(140deg,rgba(232,184,75,0.07) 0%,transparent 60%);opacity:0;transition:opacity 0.35s}
+.hub-card:hover{transform:translateY(-9px);border-color:rgba(232,184,75,0.45);box-shadow:0 28px 70px rgba(0,0,0,0.55)}
+.hub-card:hover::after{opacity:1}
+.hub-card:hover .hc-arrow{transform:translateX(6px);opacity:1;color:#E8B84B}
+.hc-arrow{opacity:0.25;transition:all 0.3s;color:#E8B84B;font-size:1.1rem;display:inline-block}
+
+/* Buttons */
+.btn-gold{background:#E8B84B;color:#060E1A;border:none;border-radius:8px;font-family:'Outfit',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;transition:all 0.25s;display:inline-flex;align-items:center;gap:8px;padding:13px 26px;text-decoration:none}
+.btn-gold:hover{background:#F5CC6A;transform:translateY(-2px);box-shadow:0 10px 28px rgba(232,184,75,0.4)}
+.btn-out{background:transparent;color:#E2EBF3;border:1px solid rgba(232,184,75,0.38);border-radius:8px;font-family:'Outfit',sans-serif;font-weight:500;font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;transition:all 0.25s;display:inline-flex;align-items:center;gap:8px;padding:13px 26px}
+.btn-out:hover{border-color:#E8B84B;background:rgba(232,184,75,0.08);transform:translateY(-2px)}
+.btn-ghost{background:none;border:none;color:#E8B84B;font-family:'Outfit',sans-serif;font-weight:700;font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;display:inline-flex;align-items:center;gap:5px;padding:0;transition:gap 0.2s}
+.btn-ghost:hover{gap:9px}
+
+/* Cards */
+.card{background:#0C1B2B;border:1px solid rgba(255,255,255,0.055);border-radius:14px}
+.svc-card{background:#0C1B2B;border:1px solid rgba(255,255,255,0.055);border-radius:13px;padding:28px;transition:all 0.3s}
+.svc-card:hover{border-color:rgba(232,184,75,0.32);transform:translateY(-5px);background:#0E1F33}
+.case-card{background:#0C1B2B;border:1px solid rgba(255,255,255,0.055);border-radius:15px;overflow:hidden;transition:all 0.35s}
+.case-card:hover{transform:translateY(-7px);box-shadow:0 24px 64px rgba(0,0,0,0.5);border-color:rgba(232,184,75,0.28)}
+.tcard{background:#0C1B2B;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:30px;cursor:pointer;transition:all 0.28s}
+.tcard:hover,.tcard.tact{border-color:rgba(232,184,75,0.45) !important}
+
+/* Form */
+.fi{width:100%;background:#0A1829;border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:13px 16px;color:#E2EBF3;font-family:'Outfit',sans-serif;font-size:0.88rem;outline:none;transition:border-color 0.22s;resize:vertical}
+.fi:focus{border-color:rgba(232,184,75,0.6)}
+.fi::placeholder{color:#3D5166}
+
+/* Skill bar */
+.sbar{height:5px;background:rgba(255,255,255,0.07);border-radius:99px;overflow:hidden}
+.sfill{height:100%;background:linear-gradient(90deg,#E8B84B,#F5CC6A);border-radius:99px;animation:barGrow 1.2s cubic-bezier(0.16,1,0.3,1) forwards}
+
+/* Grid bg */
+.gpat{background-image:linear-gradient(rgba(232,184,75,0.022) 1px,transparent 1px),linear-gradient(90deg,rgba(232,184,75,0.022) 1px,transparent 1px);background-size:52px 52px}
+
+/* Chatbot */
+.chat-pop{animation:chatPop 0.32s cubic-bezier(0.16,1,0.3,1) both}
+.dot-typing span{display:inline-block;width:5px;height:5px;background:#E8B84B;border-radius:50%;margin:0 2px;animation:blink 1.4s infinite}
+.dot-typing span:nth-child(2){animation-delay:0.22s}
+.dot-typing span:nth-child(3){animation-delay:0.44s}
+
+/* Section divider */
+.gdiv{width:60px;height:3px;background:linear-gradient(90deg,transparent,#E8B84B,transparent);margin:0 auto;border-radius:2px}
+
+/* Responsive */
+@media(max-width:768px){
+  .hide-mob{display:none !important}
+  .show-mob{display:flex !important}
+  .mob-stack{flex-direction:column !important}
+  .mob-center{text-align:center !important}
+  .mob-full{width:100% !important}
+  .hero-h{font-size:clamp(2.8rem,12vw,5rem) !important}
+}
+@media(min-width:769px){.show-mob{display:none !important}}
+
+/* Glow dot */
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;flex-shrink:0}
+
+/* Tag badge */
+.tag{display:inline-flex;align-items:center;font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;padding:4px 11px;border-radius:999px}
+
+/* Icon box */
+.ibox{display:flex;align-items:center;justify-content:center;border-radius:12px;background:rgba(232,184,75,0.08);border:1px solid rgba(232,184,75,0.22);flex-shrink:0}
+
+/* Section label */
+.slabel{color:#E8B84B;font-size:0.72rem;font-weight:700;letter-spacing:0.25em;text-transform:uppercase;margin-bottom:12px}
+
+/* Tooltip transition */
+.fade-tr{transition:opacity 0.2s,transform 0.2s}
+
+/* Mobile menu */
+.mob-menu{position:fixed;top:70px;left:0;right:0;z-index:198;background:rgba(6,14,26,0.97);backdrop-filter:blur(22px);border-bottom:1px solid rgba(255,255,255,0.05);padding:20px 24px 28px;animation:fadeIn 0.22s ease}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect, useRef, useCallback } = React;
+
+/* ── ICONS (inline SVG) ── */
+const Ic = ({ d, size=18, color="currentColor", strokeWidth=1.8 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" style={{flexShrink:0}}>
+    {Array.isArray(d) ? d.map((p,i) => <path key={i} d={p}/>) : <path d={d}/>}
+  </svg>
+);
+const icons = {
+  user:     "M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8",
+  brief:    "M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16",
+  gear:     "M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z",
+  star:     "M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z",
+  mail:     "M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z M22 6l-10 7L2 6",
+  menu:     "M3 12h18 M3 6h18 M3 18h18",
+  x:        "M18 6L6 18 M6 6l12 12",
+  right:    "M9 18l6-6-6-6",
+  left:     "M15 18l-6-6 6-6",
+  back:     "M19 12H5 M12 19l-7-7 7-7",
+  award:    "M12 15a7 7 0 1 0 0-14 7 7 0 0 0 0 14z M8.21 13.89L7 23l5-3 5 3-1.21-9.12",
+  users:    "M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8 M23 21v-2a4 4 0 0 0-3-3.87 M16 3.13a4 4 0 0 1 0 7.75",
+  trend:    "M23 6l-9.5 9.5-5-5L1 18 M17 6h6v6",
+  msg:      "M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z",
+  phone:    "M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z",
+  pin:      "M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z M12 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6",
+  globe:    "M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2z M2 12h20 M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z",
+  send:     "M22 2L11 13 M22 2l-7 20-4-9-9-4 20-7z",
+  check:    "M22 11.08V12a10 10 0 1 1-5.93-9.14 M22 4L12 14.01l-3-3",
+  layers:   "M12 2L2 7l10 5 10-5-10-5z M2 17l10 5 10-5 M2 12l10 5 10-5",
+  file:     "M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z M14 2v6h6 M16 13H8 M16 17H8 M10 9H8",
+  book:     "M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z",
+  chart:    "M18 20V10 M12 20V4 M6 20v-6",
+  target:   "M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12z M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4z",
+  zap:      "M13 2L3 14h9l-1 8 10-12h-9l1-8z",
+  ext:      "M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6 M15 3h6v6 M10 14L21 3",
+  quote:    "M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z",
+  clock:    "M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M12 6v6l4 2",
+};
+
+const Icon = ({name, size=18, color="currentColor"}) => {
+  const d = icons[name] || "";
+  const parts = d.split(" M ").map((p,i) => i===0?p:"M "+p);
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{flexShrink:0}}>
+      {parts.map((p,i) => <path key={i} d={p}/>)}
+    </svg>
+  );
+};
+
+/* ── CONSTANTS ── */
+const GOLD  = "#E8B84B";
+const BG    = "#060E1A";
+const CARD  = "#0C1B2B";
+const PAD   = "0 max(22px, calc((100% - 1160px) / 2))";
+
+/* ── DATA ── */
+const CASES = [
+  {
+    tag:"Logistics & Operations", color:"#3A7BD5",
+    title:"Project Aqua — Distribution Infrastructure",
+    ch:"Design a multi-zone distribution network for a new bottled water brand across Lagos and Ogun State from scratch, with no existing logistics framework or vendor relationships.",
+    sol:"Led WBS Activities 3.3 & 3.4: mapped 9 delivery zones (LG-1 to LG-6, OG-1 to OG-3), evaluated 7 logistics vendors including GIG Logistics, Kobo360 & ACE Logistics, and produced formal RFQ document PA-RFQ-DIST-001.",
+    res:"An execution-ready distribution blueprint with vetted logistics partners and cost benchmarks — reducing vendor selection time by an estimated 60%.",
+    metrics:["9 Zones Mapped","7 Partners Vetted","RFQ Delivered"],
+  },
+  {
+    tag:"Education & Curriculum", color:"#E8B84B",
+    title:"Lucid Hub — Spark Teaching Series",
+    ch:"Build a structured leadership development curriculum for a growing organisation with no existing formal program, spanning diverse domains of human development from scratch.",
+    sol:"Designed the 19-session Lucid Spark Teaching Series across 6 domains: Personal Development, Emotional Intelligence, Finance, Health & Wellbeing, Spiritual Formation, and Character & Community Leadership — with complete facilitator guides.",
+    res:"Full curriculum delivered with facilitator guides; three revenue monetization channels identified (digital products, speaking engagements, membership community) enabling organisational sustainability.",
+    metrics:["19 Sessions Built","6 Domains Covered","3 Revenue Channels"],
+  },
+  {
+    tag:"Financial Compliance", color:"#2ECC71",
+    title:"Avodah Finance — Regulatory Documentation",
+    ch:"Complete a comprehensive corporate disclosure and compliance document meeting regulatory requirements before a firm submission deadline with multiple critical governance sections required simultaneously.",
+    sol:"Structured and authored the full compliance document covering management profiles, shareholder disclosures, governance policies, and the organisational chart — coordinating multi-stakeholder input under time pressure.",
+    res:"Submission-ready compliance document delivered on deadline with zero revision cycles, and clearly flagged fields for final completion before filing.",
+    metrics:["5 Governance Sections","0 Revision Cycles","Deadline Met"],
+  },
+  {
+    tag:"Data & Information", color:"#9B59B6",
+    title:"RCCG IMC — National Directory Database",
+    ch:"Extract, organise, and structure regional pastor contact data from a national directory spanning 65 regions, each with inconsistent formats and incomplete records requiring significant reconciliation.",
+    sol:"Systematically mapped all PICR role codes across 65 regions, built a clean hierarchical database sorted by region, role, and contact type — enabling precise, scalable outreach at a national level.",
+    res:"An organised, communication-ready database that dramatically reduced regional lookup time and enabled efficient, targeted outreach coordination across all national regions.",
+    metrics:["65 Regions Covered","Clean Structured DB","Outreach-Ready"],
+  },
+];
+
+const SERVICES = [
+  {icon:"layers", title:"Project Lifecycle Management", desc:"End-to-end planning, execution, monitoring, and closure — with structured documentation and clear deliverables at every phase from initiation to handoff."},
+  {icon:"file",   title:"Strategic Documentation",       desc:"Regulatory compliance documents, project charters, SOPs, reports, and governance frameworks crafted with precision, clarity, and full stakeholder alignment."},
+  {icon:"users",  title:"Team Leadership & Coordination",desc:"Cross-functional team alignment, RACI matrix design, role-clarity workshops, and conflict resolution for high-performing, accountable project teams."},
+  {icon:"chart",  title:"Stakeholder Communication",     desc:"Executive presentations, status reports, briefings, and communication plans that keep every voice informed and every decision backed by clear data."},
+  {icon:"book",   title:"Curriculum & Program Design",   desc:"Structured learning programs, workshop curricula, and facilitator guides for leadership development, onboarding, and organisational capacity building."},
+  {icon:"trend",  title:"PMO Strategy & Advisory",       desc:"Project management office setup, methodology selection (Agile / Waterfall / Hybrid), KPI frameworks, and organisational change management consulting."},
+];
+
+const TESTIMONIALS = [
+  {name:"Paul O.", role:"Project Manager, Project Aqua", text:"Olugbenga's distribution strategy was remarkably thorough. He mapped complex delivery zones, shortlisted logistics partners, and produced a professional RFQ with a precision that far exceeded expectations. An indispensable contributor to the team."},
+  {name:"Leadership Team", role:"Lucid Hub Organisation", text:"The curriculum Olugbenga designed became the entire backbone of our teaching series. His ability to synthesize diverse domains — from emotional intelligence to financial literacy — into a cohesive 19-session program was genuinely extraordinary work."},
+  {name:"Finance Director", role:"Avodah Finance", text:"His attention to regulatory detail and documentation precision saved us weeks of revision cycles. Every section was structured, compliant, and submission-ready. We trust Olugbenga with our most sensitive and highest-stakes documentation projects."},
+  {name:"Regional Coordinator", role:"RCCG Central Missions Board", text:"Organising 65 regional directories was no small undertaking. Olugbenga delivered a clean, structured database that completely transformed how we handle regional communication and outreach. His efficiency is genuinely remarkable."},
+];
+
+const SKILLS = [
+  {label:"Project Planning & Execution", pct:92},
+  {label:"Documentation & Compliance",   pct:90},
+  {label:"Stakeholder Management",       pct:88},
+  {label:"Team Leadership",             pct:87},
+  {label:"Risk Assessment & QA",        pct:84},
+  {label:"Agile / Scrum Methodologies", pct:80},
+];
+
+const CERTS = [
+  {name:"Google Project Management Professional Certificate", issuer:"Google / Coursera", year:"2024", color:"#4285F4"},
+  {name:"DSA Certification", issuer:"Digital Skills Alliance", year:"2023", color:"#E8B84B"},
+  {name:"DEXA Certification", issuer:"Excellence Academy", year:"2023", color:"#2ECC71"},
+  {name:"Exford Global PM Certificate", issuer:"Exford Global Institute", year:"2024", color:"#9B59B6"},
+];
+
+const VALUES = [
+  {icon:"target", label:"Strategic Clarity",    desc:"Every engagement starts with a sharp objective. I translate ambiguous goals into actionable, measurable plans."},
+  {icon:"check",  label:"Dependable Execution", desc:"I deliver on commitments — on time, to scope, and with a quality standard that speaks for itself."},
+  {icon:"users",  label:"People-First Leadership",desc:"Great projects are built by great teams. I invest in people and alignment before tools and processes."},
+  {icon:"zap",    label:"Adaptive Thinking",    desc:"When circumstances shift, I shift with them — keeping projects on track without losing momentum or morale."},
+];
+
+/* ── SHARED ── */
+function PageHeader({ title, subtitle, onBack }) {
+  return (
+    <div style={{padding:"96px 0 32px", textAlign:"center"}}>
+      {onBack && (
+        <div style={{textAlign:"left", marginBottom:28}}>
+          <button className="btn-out" onClick={onBack} style={{padding:"9px 18px",fontSize:"0.72rem"}}>
+            <Icon name="back" size={13}/> Home
+          </button>
+        </div>
+      )}
+      <p className="slabel">{subtitle}</p>
+      <h1 className="fd" style={{fontSize:"clamp(2.4rem,6vw,4.2rem)", fontWeight:600, color:"#F0F4F8", lineHeight:1.08}}>{title}</h1>
+      <div className="gdiv" style={{marginTop:18}}/>
+    </div>
+  );
+}
+
+/* ── NAV ── */
+function Nav({ page, go }) {
+  const [scrolled, setScrolled] = useState(false);
+  const [mob, setMob]           = useState(false);
+  const links = [["about","About"],["portfolio","Portfolio"],["services","Services"],["testimonials","Testimonials"],["contact","Contact"]];
+
+  useEffect(() => {
+    const h = () => setScrolled(window.scrollY > 28);
+    window.addEventListener("scroll", h, {passive:true});
+    return () => window.removeEventListener("scroll", h);
+  }, []);
+
+  const goPage = (k) => { go(k); setMob(false); };
+
+  return (
+    <>
+      <nav style={{
+        position:"fixed",top:0,left:0,right:0,zIndex:200,
+        background: scrolled ? "rgba(6,14,26,0.95)" : "transparent",
+        backdropFilter: scrolled ? "blur(22px)" : "none",
+        borderBottom: scrolled ? "1px solid rgba(255,255,255,0.05)" : "none",
+        transition:"all 0.35s",
+        padding:`0 max(22px, calc((100% - 1160px) / 2))`,
+      }}>
+        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",height:70}}>
+          <div onClick={() => go("home")} style={{cursor:"pointer",display:"flex",alignItems:"center",gap:10}}>
+            <div style={{width:36,height:36,borderRadius:9,background:`linear-gradient(135deg,${GOLD},#F5CC6A)`,display:"flex",alignItems:"center",justifyContent:"center"}}>
+              <span className="fd" style={{fontWeight:700,fontSize:"1rem",color:BG}}>OC</span>
+            </div>
+            <span style={{fontWeight:600,fontSize:"0.9rem",color:"#E2EBF3",letterSpacing:"0.04em"}}>G. Crown</span>
+          </div>
+          <div className="hide-mob" style={{display:"flex",gap:30,alignItems:"center"}}>
+            {links.map(([k,l]) => (
+              <button key={k} className={`nav-link ${page===k?"active":""}`} onClick={() => go(k)}>{l}</button>
+            ))}
+            <button className="btn-gold" style={{padding:"9px 20px",fontSize:"0.72rem"}} onClick={() => go("contact")}>Hire Me</button>
+          </div>
+          <button className="show-mob" onClick={() => setMob(!mob)}
+            style={{background:"none",border:"none",color:"#E2EBF3",cursor:"pointer",padding:4}}>
+            <Icon name={mob?"x":"menu"} size={22}/>
+          </button>
+        </div>
+      </nav>
+      {mob && (
+        <div className="mob-menu">
+          {links.map(([k,l]) => (
+            <div key={k} onClick={() => goPage(k)}
+              style={{padding:"14px 0",borderBottom:"1px solid rgba(255,255,255,0.04)",fontSize:"1rem",fontWeight:500,color:page===k?GOLD:"#E2EBF3",cursor:"pointer"}}>
+              {l}
+            </div>
+          ))}
+          <button className="btn-gold" style={{marginTop:18,width:"100%",justifyContent:"center"}} onClick={() => goPage("contact")}>Hire Me</button>
+        </div>
+      )}
+    </>
+  );
+}
+
+/* ── HOME ── */
+function Home({ go }) {
+  const HUB = [
+    {k:"about",        icon:"user",  label:"About Me",    desc:"My story, certifications & the values that drive every project I take on."},
+    {k:"portfolio",    icon:"brief", label:"Portfolio",   desc:"Real case studies with Challenge, Solution & Results breakdowns."},
+    {k:"services",     icon:"gear",  label:"Services",    desc:"Project consulting, lifecycle management, and team leadership offerings."},
+    {k:"testimonials", icon:"star",  label:"Testimonials",desc:"What collaborators and clients say about working with me."},
+    {k:"contact",      icon:"mail",  label:"Contact",     desc:"Start a conversation. Let's build something great together."},
+  ];
+  return (
+    <div>
+      {/* HERO */}
+      <section className="gpat" style={{minHeight:"100vh",display:"flex",alignItems:"center",padding:`0 ${PAD}`,position:"relative",overflow:"hidden"}}>
+        <div style={{position:"absolute",top:"18%",right:"8%",width:400,height:400,borderRadius:"50%",background:"radial-gradient(circle,rgba(232,184,75,0.08),transparent 68%)",pointerEvents:"none"}}/>
+        <div style={{position:"absolute",bottom:"10%",left:"5%",width:260,height:260,borderRadius:"50%",background:"radial-gradient(circle,rgba(58,123,213,0.07),transparent 70%)",pointerEvents:"none"}}/>
+        <div style={{maxWidth:680,paddingTop:80}}>
+          <p className="s0 slabel">Project Manager · Executive Strategist · Lagos, Nigeria</p>
+          <h1 className="s1 fd hero-h" style={{fontSize:"clamp(3rem,9vw,6.6rem)",fontWeight:600,lineHeight:1.0,color:"#F0F4F8"}}>
+            Olugbenga<br/>
+            <span style={{color:GOLD,fontStyle:"italic",fontWeight:300}}>Crown</span>
+          </h1>
+          <p className="s2" style={{color:"#7B8FA3",fontSize:"clamp(0.88rem,2.2vw,1.05rem)",lineHeight:1.78,maxWidth:520,marginTop:22,marginBottom:38}}>
+            I turn complex challenges into structured successes — from distribution networks to compliance frameworks. I deliver projects that move organisations forward with precision and purpose.
+          </p>
+          <div className="s3" style={{display:"flex",gap:14,flexWrap:"wrap"}}>
+            <button className="btn-gold" onClick={() => go("portfolio")}>View My Work <Icon name="right" size={14} color={BG}/></button>
+            <button className="btn-out"  onClick={() => go("contact")}>Start a Project</button>
+          </div>
+          <div className="s4" style={{display:"flex",gap:48,marginTop:64,flexWrap:"wrap"}}>
+            {[["4+","Certifications Held"],["10+","Projects Delivered"],["4+","Industries Served"]].map(([n,l]) => (
+              <div key={l}>
+                <div className="fd" style={{fontSize:"2.6rem",fontWeight:700,color:GOLD,lineHeight:1}}>{n}</div>
+                <div style={{fontSize:"0.74rem",color:"#6B7F93",marginTop:4,letterSpacing:"0.04em"}}>{l}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* HUB */}
+      <section style={{padding:`72px ${PAD} 100px`}}>
+        <p className="slabel" style={{textAlign:"center"}}>Navigate</p>
+        <h2 className="fd" style={{fontSize:"clamp(1.9rem,4vw,3.1rem)",color:"#F0F4F8",textAlign:"center",marginBottom:52,fontWeight:600}}>Explore My World</h2>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(240px,1fr))",gap:18}}>
+          {HUB.map((item,i) => (
+            <div key={item.k} className={`hub-card s${i}`} onClick={() => go(item.k)} tabIndex={0}
+              onKeyDown={e => e.key==="Enter" && go(item.k)}>
+              <div className="ibox" style={{width:50,height:50,marginBottom:20}}>
+                <Icon name={item.icon} size={20} color={GOLD}/>
+              </div>
+              <h3 style={{fontWeight:600,fontSize:"1.07rem",color:"#E2EBF3",marginBottom:9}}>{item.label}</h3>
+              <p style={{fontSize:"0.83rem",color:"#6B7F93",lineHeight:1.68,marginBottom:22}}>{item.desc}</p>
+              <div style={{display:"flex",alignItems:"center",gap:6}}>
+                <span style={{fontSize:"0.71rem",color:GOLD,fontWeight:700,letterSpacing:"0.12em",textTransform:"uppercase"}}>Explore</span>
+                <span className="hc-arrow">›</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* QUICK ABOUT STRIP */}
+      <section style={{padding:`0 ${PAD} 96px`}}>
+        <div style={{background:CARD,border:"1px solid rgba(232,184,75,0.13)",borderRadius:18,padding:"48px 40px",display:"flex",gap:36,flexWrap:"wrap",alignItems:"center",justifyContent:"space-between"}}>
+          <div style={{flex:"1 1 280px"}}>
+            <p className="slabel">Why Work With Me?</p>
+            <h2 className="fd" style={{fontSize:"clamp(1.7rem,4vw,2.6rem)",color:"#F0F4F8",fontWeight:600,lineHeight:1.15,marginBottom:14}}>
+              A PM who delivers — not just plans.
+            </h2>
+            <p style={{fontSize:"0.87rem",color:"#7B8FA3",lineHeight:1.78}}>
+              With certifications from Google and global institutions, I combine methodology with real-world adaptability. My work spans finance, water production, church administration, and leadership development — each project delivered with zero compromise on quality.
+            </p>
+          </div>
+          <div style={{flex:"1 1 240px",display:"grid",gridTemplateColumns:"1fr 1fr",gap:16}}>
+            {[["#3A7BD5","Certified PM","Google · DSA · DEXA · Exford"],["#2ECC71","Deadline-Driven","On time, every time"],["#E8B84B","Multi-Industry","Finance, Ops, Education"],["#9B59B6","Documentation","Precision at every phase"]].map(([col,t,s]) => (
+              <div key={t} style={{background:"rgba(255,255,255,0.025)",borderRadius:10,padding:"16px 14px"}}>
+                <div style={{width:8,height:8,borderRadius:"50%",background:col,marginBottom:9}}/>
+                <p style={{fontWeight:600,fontSize:"0.87rem",color:"#E2EBF3",marginBottom:4}}>{t}</p>
+                <p style={{fontSize:"0.76rem",color:"#6B7F93",lineHeight:1.5}}>{s}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+/* ── ABOUT ── */
+function About({ go }) {
+  const [vis, setVis] = useState(false);
+  const ref = useRef(null);
+  useEffect(() => {
+    const obs = new IntersectionObserver(([e]) => { if(e.isIntersecting) setVis(true); }, {threshold:0.1});
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, []);
+
+  return (
+    <div className="page-in" style={{padding:`0 ${PAD} 100px`}}>
+      <PageHeader title="About Me" subtitle="The Person Behind the Projects" onBack={() => go("home")}/>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(290px,1fr))",gap:36,marginTop:48,alignItems:"start"}}>
+        {/* LEFT */}
+        <div>
+          <div className="card" style={{padding:32,border:`1px solid rgba(232,184,75,0.16)`,borderRadius:14,marginBottom:18}}>
+            <div style={{width:76,height:76,borderRadius:14,background:`linear-gradient(135deg,${GOLD},#F5CC6A)`,display:"flex",alignItems:"center",justifyContent:"center",marginBottom:20}}>
+              <span className="fd" style={{fontSize:"2rem",fontWeight:700,color:BG}}>OC</span>
+            </div>
+            <h2 className="fd" style={{fontSize:"1.95rem",color:"#F0F4F8",fontWeight:600,marginBottom:5}}>Olugbenga Crown</h2>
+            <p style={{color:GOLD,fontSize:"0.73rem",fontWeight:700,letterSpacing:"0.16em",textTransform:"uppercase",marginBottom:20}}>Project Manager · Executive Strategist</p>
+            <p style={{fontSize:"0.87rem",color:"#8899AA",lineHeight:1.8,marginBottom:14}}>
+              I am a Project Manager and organisational strategist with a foundation in Library and Information Science — now fully at home in the world of projects, processes, and people.
+            </p>
+            <p style={{fontSize:"0.87rem",color:"#8899AA",lineHeight:1.8}}>
+              Currently serving as Account Officer at Avodah Finance and Executive Assistant at the RCCG Central Missions Board (IMC), I bridge operational detail with strategic vision. I'm also the founder of Lucid Hub — a leadership development platform building the next generation of principled leaders.
+            </p>
+          </div>
+          {[
+            ["pin","Location","Lagos, Nigeria"],
+            ["brief","Current Roles","Avodah Finance · RCCG IMC"],
+            ["book","Education","Library & Information Science (LIS)"],
+            ["globe","Focus Areas","PM · Compliance · Curriculum Design"],
+          ].map(([icon,label,val]) => (
+            <div key={label} style={{display:"flex",alignItems:"center",gap:13,padding:"11px 0",borderBottom:"1px solid rgba(255,255,255,0.04)"}}>
+              <div className="ibox" style={{width:36,height:36}}>
+                <Icon name={icon} size={14} color={GOLD}/>
+              </div>
+              <div>
+                <p style={{fontSize:"0.69rem",color:"#6B7F93",textTransform:"uppercase",letterSpacing:"0.08em"}}>{label}</p>
+                <p style={{fontSize:"0.87rem",color:"#E2EBF3",fontWeight:500}}>{val}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        {/* RIGHT */}
+        <div>
+          <div ref={ref} className="card" style={{padding:32,marginBottom:18}}>
+            <h3 style={{fontWeight:600,fontSize:"0.95rem",color:"#E2EBF3",marginBottom:24,letterSpacing:"0.04em"}}>Core Competencies</h3>
+            {SKILLS.map((s,i) => (
+              <div key={s.label} style={{marginBottom:16}}>
+                <div style={{display:"flex",justifyContent:"space-between",marginBottom:7}}>
+                  <span style={{fontSize:"0.82rem",color:"#C5D3DE"}}>{s.label}</span>
+                  <span style={{fontSize:"0.76rem",color:GOLD,fontWeight:700}}>{s.pct}%</span>
+                </div>
+                <div className="sbar">
+                  {vis && <div className="sfill" style={{"--w":`${s.pct}%`,animationDelay:`${i*0.1}s`}}/>}
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="card" style={{padding:32}}>
+            <h3 style={{fontWeight:600,fontSize:"0.95rem",color:"#E2EBF3",marginBottom:22}}>Certifications</h3>
+            {CERTS.map(c => (
+              <div key={c.name} style={{display:"flex",alignItems:"center",gap:13,padding:"12px 0",borderBottom:"1px solid rgba(255,255,255,0.04)"}}>
+                <div style={{width:8,height:8,borderRadius:"50%",background:c.color,boxShadow:`0 0 8px ${c.color}70`}}/>
+                <div style={{flex:1}}>
+                  <p style={{fontSize:"0.84rem",color:"#E2EBF3",fontWeight:500,lineHeight:1.35}}>{c.name}</p>
+                  <p style={{fontSize:"0.73rem",color:"#6B7F93",marginTop:2}}>{c.issuer} · {c.year}</p>
+                </div>
+                <Icon name="award" size={13} color={c.color}/>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      {/* VALUES */}
+      <div style={{marginTop:72}}>
+        <h2 className="fd" style={{fontSize:"2.4rem",color:"#F0F4F8",textAlign:"center",marginBottom:46,fontWeight:600}}>Core Values</h2>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(220px,1fr))",gap:18}}>
+          {VALUES.map(v => (
+            <div key={v.label} className="svc-card">
+              <div className="ibox" style={{width:48,height:48,marginBottom:16}}>
+                <Icon name={v.icon} size={20} color={GOLD}/>
+              </div>
+              <h3 style={{fontWeight:600,fontSize:"0.97rem",color:"#E2EBF3",marginBottom:9}}>{v.label}</h3>
+              <p style={{fontSize:"0.83rem",color:"#6B7F93",lineHeight:1.68}}>{v.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div style={{textAlign:"center",marginTop:64}}>
+        <button className="btn-gold" onClick={() => go("portfolio")} style={{marginRight:14}}>See My Work <Icon name="right" size={14} color={BG}/></button>
+        <button className="btn-out"  onClick={() => go("contact")}>Get In Touch</button>
+      </div>
+    </div>
+  );
+}
+
+/* ── PORTFOLIO ── */
+function Portfolio({ go }) {
+  return (
+    <div className="page-in" style={{padding:`0 ${PAD} 100px`}}>
+      <PageHeader title="Case Studies" subtitle="Portfolio & Work" onBack={() => go("home")}/>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(310px,1fr))",gap:22,marginTop:48}}>
+        {CASES.map((cs,i) => (
+          <div key={i} className="case-card">
+            <div style={{height:5,background:`linear-gradient(90deg,${cs.color},${cs.color}44)`}}/>
+            <div style={{padding:28}}>
+              <span className="tag" style={{background:`${cs.color}16`,color:cs.color,border:`1px solid ${cs.color}30`}}>{cs.tag}</span>
+              <h3 style={{fontWeight:600,fontSize:"1.02rem",color:"#E2EBF3",marginTop:16,marginBottom:18,lineHeight:1.4}}>{cs.title}</h3>
+              <div style={{display:"flex",gap:7,marginBottom:22,flexWrap:"wrap"}}>
+                {cs.metrics.map(m => (
+                  <span key={m} style={{background:"rgba(255,255,255,0.04)",border:"1px solid rgba(255,255,255,0.07)",padding:"4px 11px",borderRadius:6,fontSize:"0.71rem",color:"#C5D3DE",fontWeight:500}}>{m}</span>
+                ))}
+              </div>
+              {[["Challenge",cs.ch,"#E74C3C"],["Solution",cs.sol,"#3498DB"],["Result",cs.res,"#2ECC71"]].map(([label,text,col]) => (
+                <div key={label} style={{marginBottom:8,borderRadius:8,border:"1px solid rgba(255,255,255,0.04)",overflow:"hidden"}}>
+                  <div style={{padding:"9px 14px",background:"rgba(255,255,255,0.025)",display:"flex",alignItems:"center",gap:9}}>
+                    <div style={{width:6,height:6,borderRadius:"50%",background:col,boxShadow:`0 0 6px ${col}80`}}/>
+                    <span style={{fontSize:"0.71rem",fontWeight:700,color:col,textTransform:"uppercase",letterSpacing:"0.1em"}}>{label}</span>
+                  </div>
+                  <div style={{padding:"11px 14px"}}>
+                    <p style={{fontSize:"0.81rem",color:"#8899AA",lineHeight:1.68}}>{text}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div style={{textAlign:"center",marginTop:52}}>
+        <button className="btn-gold" onClick={() => go("contact")}>Discuss a Project <Icon name="right" size={14} color={BG}/></button>
+      </div>
+    </div>
+  );
+}
+
+/* ── SERVICES ── */
+function Services({ go }) {
+  return (
+    <div className="page-in" style={{padding:`0 ${PAD} 100px`}}>
+      <PageHeader title="Services" subtitle="What I Offer" onBack={() => go("home")}/>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))",gap:18,marginTop:48}}>
+        {SERVICES.map((s,i) => (
+          <div key={s.title} className={`svc-card s${i}`}>
+            <div className="ibox" style={{width:50,height:50,marginBottom:20}}>
+              <Icon name={s.icon} size={21} color={GOLD}/>
+            </div>
+            <h3 style={{fontWeight:600,fontSize:"1.02rem",color:"#E2EBF3",marginBottom:11}}>{s.title}</h3>
+            <p style={{fontSize:"0.84rem",color:"#6B7F93",lineHeight:1.72,marginBottom:20}}>{s.desc}</p>
+            <div style={{borderTop:"1px solid rgba(255,255,255,0.05)",paddingTop:14}}>
+              <button className="btn-ghost" onClick={() => go("contact")}>Enquire ›</button>
+            </div>
+          </div>
+        ))}
+      </div>
+      {/* Process */}
+      <div style={{marginTop:72,background:CARD,border:`1px solid rgba(232,184,75,0.12)`,borderRadius:18,padding:"46px 38px"}}>
+        <h2 className="fd" style={{fontSize:"2.2rem",color:"#F0F4F8",textAlign:"center",marginBottom:42,fontWeight:600}}>My Process</h2>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(160px,1fr))",gap:26}}>
+          {[["01","Discovery","Deep-dive into your context, goals, and constraints."],
+            ["02","Planning","Clear roadmap with milestones, resources & risk mitigation."],
+            ["03","Execution","Lead delivery with daily coordination and stakeholder updates."],
+            ["04","Closure","Handoff, documentation, lessons learned & measurable results."]].map(([n,t,d]) => (
+            <div key={n} style={{textAlign:"center"}}>
+              <div className="fd" style={{fontSize:"3.2rem",fontWeight:700,color:"rgba(232,184,75,0.16)",marginBottom:6}}>{n}</div>
+              <h4 style={{fontWeight:600,fontSize:"0.93rem",color:"#E2EBF3",marginBottom:7}}>{t}</h4>
+              <p style={{fontSize:"0.8rem",color:"#6B7F93",lineHeight:1.62}}>{d}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div style={{textAlign:"center",marginTop:52}}>
+        <button className="btn-gold" onClick={() => go("contact")}>Start a Conversation <Icon name="right" size={14} color={BG}/></button>
+      </div>
+    </div>
+  );
+}
+
+/* ── TESTIMONIALS ── */
+function Testimonials({ go }) {
+  const [idx, setIdx] = useState(0);
+  const n = TESTIMONIALS.length;
+
+  return (
+    <div className="page-in" style={{padding:`0 ${PAD} 100px`}}>
+      <PageHeader title="Testimonials" subtitle="What They Say" onBack={() => go("home")}/>
+      {/* Slider */}
+      <div style={{maxWidth:680,margin:"48px auto 0"}}>
+        <div className="tcard" key={idx} style={{animation:"scaleIn 0.28s ease"}}>
+          <div style={{fontSize:"3rem",color:`${GOLD}30`,lineHeight:1,marginBottom:18,fontFamily:"serif"}}>"</div>
+          <p style={{fontSize:"0.97rem",color:"#C5D3DE",lineHeight:1.84,marginBottom:26,fontStyle:"italic"}}>{TESTIMONIALS[idx].text}</p>
+          <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:10}}>
+            <div>
+              <p style={{fontWeight:600,fontSize:"0.93rem",color:"#E2EBF3"}}>{TESTIMONIALS[idx].name}</p>
+              <p style={{fontSize:"0.77rem",color:"#6B7F93",marginTop:2}}>{TESTIMONIALS[idx].role}</p>
+            </div>
+            <div style={{display:"flex",gap:3}}>
+              {[...Array(5)].map((_,i) => (
+                <svg key={i} width="14" height="14" viewBox="0 0 24 24" fill={GOLD} stroke={GOLD} strokeWidth="1">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:14,marginTop:26}}>
+          <button className="btn-out" onClick={() => setIdx((idx-1+n)%n)} style={{padding:"9px 15px",borderRadius:8}}><Icon name="left" size={14}/></button>
+          {TESTIMONIALS.map((_,i) => (
+            <button key={i} onClick={() => setIdx(i)}
+              style={{width:i===idx?22:7,height:7,borderRadius:99,border:"none",cursor:"pointer",background:i===idx?GOLD:"rgba(232,184,75,0.25)",transition:"all 0.28s",padding:0}}/>
+          ))}
+          <button className="btn-out" onClick={() => setIdx((idx+1)%n)} style={{padding:"9px 15px",borderRadius:8}}><Icon name="right" size={14}/></button>
+        </div>
+      </div>
+      {/* Grid */}
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(260px,1fr))",gap:18,marginTop:56}}>
+        {TESTIMONIALS.map((t,i) => (
+          <div key={i} className={`tcard ${i===idx?"tact":""}`} onClick={() => setIdx(i)}>
+            <div style={{display:"flex",gap:3,marginBottom:12}}>
+              {[...Array(5)].map((_,j) => (
+                <svg key={j} width="12" height="12" viewBox="0 0 24 24" fill={GOLD} stroke={GOLD} strokeWidth="1">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+              ))}
+            </div>
+            <p style={{fontSize:"0.83rem",color:"#8899AA",lineHeight:1.72,marginBottom:18,overflow:"hidden",display:"-webkit-box",WebkitLineClamp:4,WebkitBoxOrient:"vertical"}}>{t.text}</p>
+            <p style={{fontWeight:600,fontSize:"0.87rem",color:"#E2EBF3"}}>{t.name}</p>
+            <p style={{fontSize:"0.75rem",color:"#6B7F93",marginTop:2}}>{t.role}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ── CONTACT ── */
+function Contact({ go }) {
+  const [form, setForm] = useState({name:"",email:"",subject:"",message:""});
+  const [done, setDone] = useState(false);
+  const [err, setErr]   = useState("");
+  const set = (k,v) => setForm(f => ({...f,[k]:v}));
+  const submit = () => {
+    if (!form.name || !form.email || !form.message) { setErr("Please fill in Name, Email & Message."); return; }
+    setErr(""); setDone(true);
+  };
+
+  return (
+    <div className="page-in" style={{padding:`0 ${PAD} 100px`}}>
+      <PageHeader title="Let's Talk" subtitle="Get In Touch" onBack={() => go("home")}/>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(270px,1fr))",gap:44,marginTop:48,alignItems:"start"}}>
+        {/* Info */}
+        <div>
+          <h3 style={{fontWeight:600,fontSize:"1.15rem",color:"#E2EBF3",marginBottom:14}}>Ready to start your next project?</h3>
+          <p style={{fontSize:"0.88rem",color:"#8899AA",lineHeight:1.8,marginBottom:32}}>
+            Whether you need a project manager, strategic consultant, or documentation specialist — I'm here. Let's discuss how I can help your organisation deliver better outcomes.
+          </p>
+          {[
+            ["mail","Email","hello@gcrown.pm",null],
+            ["phone","WhatsApp","+234 — [Your Number]","https://wa.me/2348000000000"],
+            ["pin","Location","Lagos, Nigeria",null],
+            ["globe","LinkedIn","linkedin.com/in/gcrown","https://linkedin.com/in/gcrown"],
+          ].map(([icon,label,val,href]) => (
+            <div key={label} style={{display:"flex",alignItems:"center",gap:13,marginBottom:18}}>
+              <div className="ibox" style={{width:42,height:42}}>
+                <Icon name={icon} size={15} color={GOLD}/>
+              </div>
+              <div>
+                <p style={{fontSize:"0.7rem",color:"#6B7F93",textTransform:"uppercase",letterSpacing:"0.08em"}}>{label}</p>
+                {href
+                  ? <a href={href} target="_blank" rel="noreferrer" style={{fontSize:"0.86rem",color:GOLD,fontWeight:500,textDecoration:"none"}}>{val}</a>
+                  : <p style={{fontSize:"0.86rem",color:"#E2EBF3",fontWeight:500}}>{val}</p>
+                }
+              </div>
+            </div>
+          ))}
+          <a href="https://wa.me/2348000000000" target="_blank" rel="noreferrer" style={{textDecoration:"none",display:"block",marginTop:16}}>
+            <div style={{background:"#128C7E",borderRadius:11,padding:"16px 20px",display:"flex",alignItems:"center",gap:13,cursor:"pointer",transition:"opacity 0.2s"}}
+              onMouseEnter={e=>e.currentTarget.style.opacity="0.88"} onMouseLeave={e=>e.currentTarget.style.opacity="1"}>
+              <Icon name="msg" size={20} color="white"/>
+              <div>
+                <p style={{fontWeight:600,fontSize:"0.89rem",color:"white"}}>Chat on WhatsApp</p>
+                <p style={{fontSize:"0.76rem",color:"rgba(255,255,255,0.7)",marginTop:2}}>Typically replies within a few hours</p>
+              </div>
+            </div>
+          </a>
+        </div>
+        {/* Form */}
+        <div className="card" style={{padding:34,borderRadius:16}}>
+          {done ? (
+            <div style={{textAlign:"center",padding:"38px 0"}}>
+              <div style={{width:64,height:64,borderRadius:"50%",background:"rgba(46,204,113,0.1)",border:"1px solid rgba(46,204,113,0.3)",display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 18px"}}>
+                <Icon name="check" size={26} color="#2ECC71"/>
+              </div>
+              <h3 style={{fontWeight:600,fontSize:"1.1rem",color:"#E2EBF3",marginBottom:9}}>Message Sent!</h3>
+              <p style={{fontSize:"0.86rem",color:"#8899AA"}}>Thank you for reaching out. I'll be in touch shortly.</p>
+              <button className="btn-gold" style={{marginTop:22}} onClick={() => {setDone(false);setForm({name:"",email:"",subject:"",message:""});}}>
+                Send Another
+              </button>
+            </div>
+          ) : (
+            <>
+              <h3 style={{fontWeight:600,fontSize:"1.05rem",color:"#E2EBF3",marginBottom:22}}>Send a Message</h3>
+              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:12}}>
+                {[["name","Full Name","text","John Doe"],["email","Email Address","email","john@company.com"]].map(([k,l,t,ph]) => (
+                  <div key={k}>
+                    <label style={{fontSize:"0.71rem",color:"#6B7F93",display:"block",marginBottom:5,letterSpacing:"0.07em",textTransform:"uppercase"}}>{l}</label>
+                    <input className="fi" type={t} value={form[k]} onChange={e=>set(k,e.target.value)} placeholder={ph}/>
+                  </div>
+                ))}
+              </div>
+              <div style={{marginBottom:12}}>
+                <label style={{fontSize:"0.71rem",color:"#6B7F93",display:"block",marginBottom:5,letterSpacing:"0.07em",textTransform:"uppercase"}}>Subject</label>
+                <input className="fi" value={form.subject} onChange={e=>set("subject",e.target.value)} placeholder="Project Inquiry / Consulting / Collaboration"/>
+              </div>
+              <div style={{marginBottom:err?10:22}}>
+                <label style={{fontSize:"0.71rem",color:"#6B7F93",display:"block",marginBottom:5,letterSpacing:"0.07em",textTransform:"uppercase"}}>Message</label>
+                <textarea className="fi" rows={5} value={form.message} onChange={e=>set("message",e.target.value)} placeholder="Tell me about your project or how I can help..."/>
+              </div>
+              {err && <p style={{fontSize:"0.78rem",color:"#E74C3C",marginBottom:14}}>{err}</p>}
+              <button className="btn-gold" style={{width:"100%",justifyContent:"center"}} onClick={submit}>
+                Send Message <Icon name="send" size={14} color={BG}/>
+              </button>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── CHATBOT ── */
+function Chatbot() {
+  const [open,  setOpen]  = useState(false);
+  const [phase, setPhase] = useState("typing");
+
+  useEffect(() => {
+    const t = setTimeout(() => setOpen(true), 3400);
+    return () => clearTimeout(t);
+  }, []);
+
+  useEffect(() => {
+    if (open && phase === "typing") {
+      const t = setTimeout(() => setPhase("msg"), 1700);
+      return () => clearTimeout(t);
+    }
+  }, [open, phase]);
+
+  const toggle = () => { setOpen(o => !o); setPhase("typing"); };
+
+  return (
+    <div style={{position:"fixed",bottom:24,right:24,zIndex:300,display:"flex",flexDirection:"column",alignItems:"flex-end",gap:12}}>
+      {open && (
+        <div className="chat-pop" style={{width:288,background:"#0C1B2B",border:`1px solid rgba(232,184,75,0.3)`,borderRadius:16,overflow:"hidden",boxShadow:"0 22px 60px rgba(0,0,0,0.6)"}}>
+          {/* Header */}
+          <div style={{background:GOLD,padding:"13px 16px",display:"flex",alignItems:"center",gap:10}}>
+            <div style={{width:30,height:30,borderRadius:"50%",background:"rgba(6,14,26,0.28)",display:"flex",alignItems:"center",justifyContent:"center"}}>
+              <span className="fd" style={{fontWeight:700,fontSize:"0.8rem",color:BG}}>OC</span>
+            </div>
+            <div>
+              <p style={{fontWeight:700,fontSize:"0.84rem",color:BG}}>G. Crown</p>
+              <p style={{fontSize:"0.68rem",color:"rgba(6,14,26,0.62)"}}>Project Manager</p>
+            </div>
+            <div style={{width:7,height:7,borderRadius:"50%",background:"#2ECC71",marginLeft:"auto",animation:"pulse 2s infinite"}}/>
+            <button onClick={() => setOpen(false)} style={{background:"none",border:"none",cursor:"pointer",color:"rgba(6,14,26,0.55)",display:"flex",marginLeft:8}}>
+              <Icon name="x" size={15} color="rgba(6,14,26,0.7)"/>
+            </button>
+          </div>
+          {/* Body */}
+          <div style={{padding:16,minHeight:70}}>
+            {phase === "typing" ? (
+              <div style={{display:"flex",gap:9,alignItems:"flex-start"}}>
+                <div style={{width:26,height:26,borderRadius:"50%",background:"rgba(232,184,75,0.12)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
+                  <span style={{fontSize:"0.6rem",fontWeight:700,color:GOLD}}>OC</span>
+                </div>
+                <div style={{background:"rgba(255,255,255,0.04)",borderRadius:"0 10px 10px 10px",padding:"10px 13px"}}>
+                  <div className="dot-typing"><span/><span/><span/></div>
+                </div>
+              </div>
+            ) : (
+              <div style={{animation:"fadeIn 0.28s ease"}}>
+                <div style={{display:"flex",gap:9,alignItems:"flex-start",marginBottom:14}}>
+                  <div style={{width:26,height:26,borderRadius:"50%",background:"rgba(232,184,75,0.12)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
+                    <span style={{fontSize:"0.6rem",fontWeight:700,color:GOLD}}>OC</span>
+                  </div>
+                  <div style={{background:"rgba(255,255,255,0.045)",borderRadius:"0 10px 10px 10px",padding:"11px 13px"}}>
+                    <p style={{fontSize:"0.83rem",color:"#E2EBF3",lineHeight:1.62}}>Hi there! 👋 Ready to start your next project? I'd love to hear what you're building.</p>
+                  </div>
+                </div>
+                <a href="https://wa.me/2348000000000" target="_blank" rel="noreferrer" style={{textDecoration:"none",display:"block"}}>
+                  <div style={{width:"100%",background:"#128C7E",border:"none",borderRadius:8,padding:"10px 14px",display:"flex",alignItems:"center",justifyContent:"center",gap:8,cursor:"pointer"}}>
+                    <Icon name="msg" size={15} color="white"/>
+                    <span style={{fontWeight:600,fontSize:"0.8rem",color:"white"}}>Chat on WhatsApp</span>
+                  </div>
+                </a>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+      {/* FAB */}
+      <button onClick={toggle} style={{width:54,height:54,borderRadius:"50%",background:`linear-gradient(135deg,${GOLD},#F5CC6A)`,border:"none",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:`0 8px 24px rgba(232,184,75,0.45)`,animation:"float 3s ease-in-out infinite",position:"relative"}}>
+        <Icon name={open?"x":"msg"} size={21} color={BG}/>
+        {!open && <div style={{position:"absolute",top:2,right:2,width:12,height:12,borderRadius:"50%",background:"#2ECC71",border:"2px solid #060E1A"}}/>}
+      </button>
+    </div>
+  );
+}
+
+/* ── FOOTER ── */
+function Footer({ go }) {
+  return (
+    <footer style={{borderTop:"1px solid rgba(255,255,255,0.05)",padding:`52px ${PAD} 28px`}}>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(155px,1fr))",gap:36,marginBottom:44}}>
+        <div>
+          <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:14}}>
+            <div style={{width:33,height:33,borderRadius:8,background:`linear-gradient(135deg,${GOLD},#F5CC6A)`,display:"flex",alignItems:"center",justifyContent:"center"}}>
+              <span className="fd" style={{fontWeight:700,fontSize:"0.85rem",color:BG}}>OC</span>
+            </div>
+            <span style={{fontWeight:600,fontSize:"0.88rem",color:"#E2EBF3"}}>G. Crown</span>
+          </div>
+          <p style={{fontSize:"0.8rem",color:"#6B7F93",lineHeight:1.72}}>Project Manager & Executive Strategist. Delivering clarity in complexity.</p>
+        </div>
+        <div>
+          <p style={{fontWeight:700,fontSize:"0.72rem",color:"#E2EBF3",letterSpacing:"0.1em",textTransform:"uppercase",marginBottom:14}}>Navigate</p>
+          {["about","portfolio","services","testimonials","contact"].map(p => (
+            <div key={p} onClick={() => go(p)}
+              style={{fontSize:"0.83rem",color:"#6B7F93",marginBottom:9,cursor:"pointer",textTransform:"capitalize",transition:"color 0.2s"}}
+              onMouseEnter={e=>e.target.style.color=GOLD} onMouseLeave={e=>e.target.style.color="#6B7F93"}>
+              {p}
+            </div>
+          ))}
+        </div>
+        <div>
+          <p style={{fontWeight:700,fontSize:"0.72rem",color:"#E2EBF3",letterSpacing:"0.1em",textTransform:"uppercase",marginBottom:14}}>Services</p>
+          {["Project Management","Strategic Documentation","Team Leadership","Curriculum Design","PMO Advisory"].map(s => (
+            <div key={s} style={{fontSize:"0.83rem",color:"#6B7F93",marginBottom:9}}>{s}</div>
+          ))}
+        </div>
+        <div>
+          <p style={{fontWeight:700,fontSize:"0.72rem",color:"#E2EBF3",letterSpacing:"0.1em",textTransform:"uppercase",marginBottom:14}}>Connect</p>
+          {[["LinkedIn","https://linkedin.com/in/gcrown"],["Twitter / X","https://twitter.com/gcrown"],["WhatsApp","https://wa.me/2348000000000"],["Email","mailto:hello@gcrown.pm"]].map(([n,u]) => (
+            <a key={n} href={u} target="_blank" rel="noreferrer"
+              style={{display:"block",fontSize:"0.83rem",color:"#6B7F93",marginBottom:9,textDecoration:"none",transition:"color 0.2s"}}
+              onMouseEnter={e=>e.target.style.color=GOLD} onMouseLeave={e=>e.target.style.color="#6B7F93"}>
+              {n}
+            </a>
+          ))}
+        </div>
+      </div>
+      <div style={{borderTop:"1px solid rgba(255,255,255,0.04)",paddingTop:22,display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:10}}>
+        <p style={{fontSize:"0.75rem",color:"#3D5166"}}>© {new Date().getFullYear()} Olugbenga Crown. All rights reserved.</p>
+        <p style={{fontSize:"0.75rem",color:"#3D5166"}}>Built with precision. Delivered with purpose.</p>
+      </div>
+    </footer>
+  );
+}
+
+/* ── ROOT ── */
+function App() {
+  const [page, setPage]   = useState("home");
+  const [fading, setFade] = useState(false);
+
+  const go = useCallback((to) => {
+    if (to === page) return;
+    setFade(true);
+    setTimeout(() => {
+      setPage(to);
+      setFade(false);
+      window.scrollTo({top:0, behavior:"smooth"});
+    }, 200);
+  }, [page]);
+
+  const PAGES = {home:Home, about:About, portfolio:Portfolio, services:Services, testimonials:Testimonials, contact:Contact};
+  const Page  = PAGES[page] || Home;
+
+  return (
+    <div style={{minHeight:"100vh",background:BG,color:"#E2EBF3",fontFamily:"'Outfit',system-ui,sans-serif"}}>
+      <Nav page={page} go={go}/>
+      <div style={{opacity:fading?0:1, transform:fading?"translateY(8px)":"translateY(0)", transition:"opacity 0.2s ease, transform 0.2s ease"}}>
+        <Page go={go}/>
+      </div>
+      <Footer go={go}/>
+      <Chatbot/>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
 </html>
